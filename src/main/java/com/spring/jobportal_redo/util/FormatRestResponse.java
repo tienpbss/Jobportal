@@ -24,6 +24,9 @@ public class FormatRestResponse implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request,
                                   ServerHttpResponse response) {
+        if (body instanceof String) {
+            return body.toString();
+        }
         ServletServerHttpResponse servletResponse = (ServletServerHttpResponse) response;
         int statusCode = servletResponse.getServletResponse().getStatus();
         if (statusCode >= 400 ) {
