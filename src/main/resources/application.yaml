@@ -1,6 +1,17 @@
 spring:
   application:
     name: jobportal_v2
+  datasource:
+    url: jdbc:mysql://localhost:3306/jobportal2
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update   # creates/updates tables automatically
+    properties:
+      hibernate:
+        format_sql: true
 server:
   port: 8090
 
