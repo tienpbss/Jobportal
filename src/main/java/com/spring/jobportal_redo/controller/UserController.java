@@ -4,6 +4,7 @@ import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // GET all users
@@ -34,6 +37,7 @@ public class UserController {
     // CREATE user
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return ResponseEntity.ok(userService.createUser(user));
     }
 
