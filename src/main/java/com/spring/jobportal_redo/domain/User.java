@@ -30,4 +30,6 @@ public class User {
     @Column(nullable = false)
     @NotEmpty(message = "Password can not be empty")
     private String password;
+
+
 }
