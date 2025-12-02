@@ -43,7 +43,6 @@ public class SecurityConfiguration {
                 .cors(withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz ->
-                        // prettier-ignore
                         authz
                                 .requestMatchers("/", "/login").permitAll()
                                 .anyRequest().authenticated()
@@ -52,11 +51,11 @@ public class SecurityConfiguration {
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .authenticationEntryPoint(entryPoint)
                         .jwt(withDefaults()))
-                .exceptionHandling(exceptions ->
-                        exceptions
-                                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                )
+//                .exceptionHandling(exceptions ->
+//                        exceptions
+//                                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+//                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+//                )
                 ;
         return http.build();
     }
