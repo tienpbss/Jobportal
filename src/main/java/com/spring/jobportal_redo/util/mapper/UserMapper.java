@@ -8,10 +8,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     User toEntity(UserCreateDto dto);
     UserResponDto toResponse(User user);
+    List<UserResponDto> toResponseList(List<User> users);
     @Mapping(target = "id", ignore = true)           // id never changes
     void updateEntityFromDto(UserUpdateDto dto, @MappingTarget User user);
 }

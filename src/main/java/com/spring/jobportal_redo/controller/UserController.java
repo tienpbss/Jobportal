@@ -3,6 +3,7 @@ package com.spring.jobportal_redo.controller;
 import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
 import com.spring.jobportal_redo.domain.dto.user.UserResponDto;
+import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
 import com.spring.jobportal_redo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +24,14 @@ public class UserController {
 
     // GET all users
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     // GET user by id
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<UserResponDto> getUserById(@PathVariable Long id) {
+        UserResponDto user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 
@@ -43,7 +44,7 @@ public class UserController {
 
     // UPDATE user
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid User userDetails) {
+    public ResponseEntity<UserResponDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto userDetails) {
         User updatedUser = userService.updateUser(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }

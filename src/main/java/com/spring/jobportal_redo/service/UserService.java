@@ -3,9 +3,9 @@ package com.spring.jobportal_redo.service;
 import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
 import com.spring.jobportal_redo.domain.dto.user.UserResponDto;
+import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
 import com.spring.jobportal_redo.repository.UserRepository;
 import com.spring.jobportal_redo.util.mapper.UserMapper;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +19,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return userMapper.toResponseList(users);
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+    public UserResponDto getUserById(Long id) {
+        User user = getUserOrThrow(id);
+        return userMapper.toResponse(user);
     }
 
     public UserResponDto createUser(UserCreateDto userInfo) {
@@ -37,16 +38,20 @@ public class UserService {
         return userMapper.toResponse(savedUser);
     }
 
-    public User updateUser(Long id, User userDetails) {
-        User user = getUserById(id);
-        user.setName(userDetails.getName());
-        user.setEmail(userDetails.getEmail());
-        user.setPassword(userDetails.getPassword());
-        return userRepository.save(user);
+    public UserResponDto updateUser(Long id, UserUpdateDto userDetails) {
+        User user = getUserOrThrow(id);
+        userMapper.updateEntityFromDto(userDetails, user);
+        User savedUser = userRepository.save(user);
+        return userMapper.toResponse(savedUser);
     }
 
     public void deleteUser(Long id) {
-        User user = getUserById(id);
+        User user = getUserOrThrow(id);
         userRepository.delete(user);
+    }
+
+    public User getUserOrThrow(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
     }
 }
