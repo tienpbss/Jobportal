@@ -14,8 +14,11 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<RestResponse<Object>> handleNoSuchElementException(NoSuchElementException ex) {
+    @ExceptionHandler({
+            NoSuchElementException.class,
+            IllegalArgumentException.class
+    })
+    public ResponseEntity<RestResponse<Object>> handleNoSuchElementException(Exception ex) {
         RestResponse<Object> restResponse = new RestResponse<>();
         restResponse.setStatusCode(HttpStatus.BAD_REQUEST.value());
         restResponse.setError("Error");
@@ -34,5 +37,15 @@ public class GlobalExceptionHandler {
         restResponse.setMessage(messages);
         return new ResponseEntity<>(restResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<RestResponse<Object>> handleException(Exception ex) {
+        RestResponse<Object> restResponse = new RestResponse<>();
+        restResponse.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        restResponse.setError("Error");
+        restResponse.setMessage(ex.getMessage());
+        return new ResponseEntity<>(restResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 }

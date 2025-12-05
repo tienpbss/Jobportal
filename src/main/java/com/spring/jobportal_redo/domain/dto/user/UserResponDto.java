@@ -2,20 +2,21 @@ package com.spring.jobportal_redo.domain.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.jobportal_redo.util.constant.Gender;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserResponDto {
     private Long id;
     private String email;
     private String name;
-    private String password;
     private Integer age;
     private Gender gender;
     private String address;

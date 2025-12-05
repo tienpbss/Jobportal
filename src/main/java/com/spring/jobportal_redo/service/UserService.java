@@ -31,7 +31,7 @@ public class UserService {
 
     public UserResponDto createUser(UserCreateDto userInfo) {
         if (userRepository.existsByEmail(userInfo.getEmail())) {
-            throw new IllegalArgumentException("User already exists");
+            throw new IllegalArgumentException("Email already exists");
         }
         User user = userMapper.toEntity(userInfo);
         User savedUser = userRepository.save(user);

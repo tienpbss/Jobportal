@@ -1,6 +1,7 @@
 package com.spring.jobportal_redo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.spring.jobportal_redo.util.SecurityUtil;
 import com.spring.jobportal_redo.util.constant.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -47,5 +48,16 @@ public class User {
     private String createdBy;
     private String updatedBy;
 
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
+        createdBy = SecurityUtil.getCurrentUserLogin().orElse(null);
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
+        updatedBy = SecurityUtil.getCurrentUserLogin().orElse(null);
+    }
 
 }

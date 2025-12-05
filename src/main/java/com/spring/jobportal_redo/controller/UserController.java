@@ -1,6 +1,5 @@
 package com.spring.jobportal_redo.controller;
 
-import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
 import com.spring.jobportal_redo.domain.dto.user.UserResponDto;
 import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
@@ -45,7 +44,7 @@ public class UserController {
     // UPDATE user
     @PutMapping("/{id}")
     public ResponseEntity<UserResponDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto userDetails) {
-        User updatedUser = userService.updateUser(id, userDetails);
+        UserResponDto updatedUser = userService.updateUser(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }
 
