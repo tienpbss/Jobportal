@@ -1,8 +1,11 @@
 package com.spring.jobportal_redo.controller;
 
 import com.spring.jobportal_redo.domain.User;
+import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
+import com.spring.jobportal_redo.domain.dto.user.UserResponDto;
 import com.spring.jobportal_redo.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     // GET all users
     @GetMapping
@@ -36,7 +36,7 @@ public class UserController {
 
     // CREATE user
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
+    public ResponseEntity<UserResponDto> createUser(@RequestBody @Valid UserCreateDto user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return ResponseEntity.ok(userService.createUser(user));
     }

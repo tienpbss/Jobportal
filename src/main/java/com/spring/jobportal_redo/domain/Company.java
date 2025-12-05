@@ -23,6 +23,7 @@ public class Company {
     @NotBlank(message = "Name of company can not be blank")
     private String name;
 
+    @Lob
     private String description;
 
     private String address;
@@ -32,6 +33,7 @@ public class Company {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant updatedAt;
 
     private String createdBy;

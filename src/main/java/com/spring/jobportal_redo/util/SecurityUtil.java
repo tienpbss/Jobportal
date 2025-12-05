@@ -1,5 +1,6 @@
 package com.spring.jobportal_redo.util;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -13,15 +14,12 @@ import java.time.Instant;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class SecurityUtil {
     public static final MacAlgorithm JWT_ALGORITHM = MacAlgorithm.HS512;
     private final JwtEncoder jwtEncoder;
     @Value("${jwt.expiration}")
     private String jwtExpiration;
-
-    public SecurityUtil(JwtEncoder jwtEncoder) {
-        this.jwtEncoder = jwtEncoder;
-    }
 
     public String createToken(Authentication authentication) {
         Instant now = Instant.now();

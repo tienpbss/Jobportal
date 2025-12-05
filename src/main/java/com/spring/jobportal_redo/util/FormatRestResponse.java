@@ -1,6 +1,7 @@
 package com.spring.jobportal_redo.util;
 
 import com.spring.jobportal_redo.domain.RestResponse;
+import com.spring.jobportal_redo.util.annotation.ApiMessage;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -34,7 +35,12 @@ public class FormatRestResponse implements ResponseBodyAdvice<Object> {
         }
         RestResponse<Object> restResponse = new RestResponse<>();
         restResponse.setStatusCode(statusCode);
-        restResponse.setMessage("CALL API SUCCESS");
+        ApiMessage apiMessage = returnType.getMethodAnnotation(ApiMessage.class);
+        if (apiMessage != null) {
+            restResponse.setMessage(apiMessage.message());
+        } else {
+            restResponse.setMessage("CALL API SUCCESS");
+        }
         restResponse.setData(body);
 
         return restResponse;

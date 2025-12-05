@@ -1,21 +1,23 @@
 package com.spring.jobportal_redo.service;
 
 import com.spring.jobportal_redo.domain.User;
+import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
+import com.spring.jobportal_redo.domain.dto.user.UserResponDto;
 import com.spring.jobportal_redo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.spring.jobportal_redo.util.mapper.UserMapper;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserMapper userMapper;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -26,8 +28,13 @@ public class UserService {
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserResponDto createUser(UserCreateDto userInfo) {
+        if (userRepository.existsByEmail(userInfo.getEmail())) {
+            throw new IllegalArgumentException("User already exists");
+        }
+        User user = userMapper.toEntity(userInfo);
+        User savedUser = userRepository.save(user);
+        return userMapper.toResponse(savedUser);
     }
 
     public User updateUser(Long id, User userDetails) {

@@ -1,5 +1,7 @@
 package com.spring.jobportal_redo.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.spring.jobportal_redo.util.constant.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "users")
@@ -30,6 +34,18 @@ public class User {
     @Column(nullable = false)
     @NotEmpty(message = "Password can not be empty")
     private String password;
+
+    private Integer age;
+    private Gender gender;
+    private String address;
+    @Column(columnDefinition = "TEXT")
+    private String refreshToken;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
+    private Instant createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
+    private Instant updatedAt;
+    private String createdBy;
+    private String updatedBy;
 
 
 }
