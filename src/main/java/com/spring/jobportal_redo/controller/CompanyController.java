@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/companies")
+@RequestMapping("/api/v1/companies")
 public class CompanyController {
     private final CompanyService companyService;
     // GET all companies
