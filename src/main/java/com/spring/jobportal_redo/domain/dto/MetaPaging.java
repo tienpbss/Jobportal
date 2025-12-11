@@ -10,6 +10,6 @@ import lombok.*;
 public class MetaPaging {
     private int page;
     private int size;
-    private int pages;
-    private long total;
+    private int totalPages;
+    private long totalElements;
 }

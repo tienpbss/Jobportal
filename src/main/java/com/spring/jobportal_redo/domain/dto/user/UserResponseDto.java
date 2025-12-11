@@ -13,15 +13,26 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponDto {
+public class UserResponseDto {
     private Long id;
     private String email;
     private String name;
     private Integer age;
     private Gender gender;
     private String address;
+    private CompanyDto company;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant updatedAt;
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CompanyDto {
+        private Long id;
+        private String name;
+    }
 }

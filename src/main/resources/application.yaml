@@ -22,4 +22,3 @@ spring:
 jwt:
   key: ${JWT_KEY}
   expiration: ${JWT_EXPIRATION}
-

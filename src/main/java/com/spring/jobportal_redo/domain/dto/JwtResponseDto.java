@@ -8,4 +8,15 @@ import lombok.*;
 @NoArgsConstructor
 public class JwtResponseDto {
     private String token;
+    private UserLogin user;
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserLogin {
+        private Long id;
+        private String email;
+        private String username;
+    }
 }

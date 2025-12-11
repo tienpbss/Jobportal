@@ -1,7 +1,8 @@
 package com.spring.jobportal_redo.controller;
 
+import com.spring.jobportal_redo.domain.dto.ApiResponse;
 import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
-import com.spring.jobportal_redo.domain.dto.user.UserResponDto;
+import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
 import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
 import com.spring.jobportal_redo.service.UserService;
 import jakarta.validation.Valid;
@@ -23,34 +24,36 @@ public class UserController {
 
     // GET all users
     @GetMapping
-    public ResponseEntity<List<UserResponDto>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<UserResponseDto>> getAll() {
+        return ResponseEntity.ok(userService.getAll());
     }
 
     // GET user by id
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponDto> getUserById(@PathVariable Long id) {
-        UserResponDto user = userService.getUserById(id);
+    public ResponseEntity<UserResponseDto> getById(@PathVariable Long id) {
+        UserResponseDto user = userService.getById(id);
         return ResponseEntity.ok(user);
     }
 
     // CREATE user
     @PostMapping
-    public ResponseEntity<UserResponDto> createUser(@RequestBody @Valid UserCreateDto user) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> create(@RequestBody @Valid UserCreateDto user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return ResponseEntity.ok(userService.createUser(user));
+        UserResponseDto userResponseDto = userService.create(user);
+        ApiResponse<UserResponseDto> response = ApiResponse.success("Created user", userResponseDto);
+        return ResponseEntity.ok(response);
     }
 
     // UPDATE user
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto userDetails) {
-        UserResponDto updatedUser = userService.updateUser(id, userDetails);
+    public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDto userDetails) {
+        UserResponseDto updatedUser = userService.update(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }
 
     // DELETE user
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
     }

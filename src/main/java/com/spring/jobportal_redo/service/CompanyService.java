@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -27,8 +26,8 @@ public class CompanyService {
         MetaPaging mt = MetaPaging.builder()
                 .page(pageable.getPageNumber() + 1)
                 .size(pageable.getPageSize())
-                .pages(companyPage.getTotalPages())
-                .total(companyPage.getTotalElements())
+                .totalPages(companyPage.getTotalPages())
+                .totalElements(companyPage.getTotalElements())
                 .build();
         return PagingReturnDto.builder()
                 .meta(mt)

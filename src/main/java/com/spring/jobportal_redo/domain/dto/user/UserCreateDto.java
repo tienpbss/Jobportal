@@ -1,5 +1,6 @@
 package com.spring.jobportal_redo.domain.dto.user;
 
+import com.spring.jobportal_redo.domain.dto.RefDto;
 import com.spring.jobportal_redo.util.constant.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,4 +18,6 @@ public class UserCreateDto {
     private Integer age;
     private Gender gender;
     private String address;
+    private RefDto company;
+
 }

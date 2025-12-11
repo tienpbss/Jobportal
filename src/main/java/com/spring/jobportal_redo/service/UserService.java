@@ -2,7 +2,7 @@ package com.spring.jobportal_redo.service;
 
 import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
-import com.spring.jobportal_redo.domain.dto.user.UserResponDto;
+import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
 import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
 import com.spring.jobportal_redo.repository.UserRepository;
 import com.spring.jobportal_redo.util.mapper.UserMapper;
@@ -19,17 +19,21 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public List<UserResponDto> getAllUsers() {
+    public List<UserResponseDto> getAll() {
         List<User> users = userRepository.findAll();
         return userMapper.toResponseList(users);
     }
 
-    public UserResponDto getUserById(Long id) {
+    public UserResponseDto getById(Long id) {
         User user = getUserOrThrow(id);
         return userMapper.toResponse(user);
     }
 
-    public UserResponDto createUser(UserCreateDto userInfo) {
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found with email"));
+    }
+
+    public UserResponseDto create(UserCreateDto userInfo) {
         if (userRepository.existsByEmail(userInfo.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
@@ -38,7 +42,7 @@ public class UserService {
         return userMapper.toResponse(savedUser);
     }
 
-    public UserResponDto updateUser(Long id, UserUpdateDto userDetails) {
+    public UserResponseDto update(Long id, UserUpdateDto userDetails) {
         User user = getUserOrThrow(id);
         userMapper.updateEntityFromDto(userDetails, user);
         User savedUser = userRepository.save(user);
@@ -54,4 +58,14 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
     }
+
+    public void saveRefreshToken(User user, String token) {
+        user.setRefreshToken(token);
+        userRepository.save(user);
+    }
+
+    public boolean checkRefreshTokenExists(String refreshToken) {
+        return userRepository.existsByRefreshToken(refreshToken);
+    }
+
 }

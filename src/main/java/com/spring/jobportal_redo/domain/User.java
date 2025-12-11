@@ -23,22 +23,22 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Email can not be empty")
     private String email;
-
     @Column(nullable = false)
     @NotBlank(message = "Name can not be empty")
     private String name;
-
     @Column(nullable = false)
     @NotEmpty(message = "Password can not be empty")
     private String password;
-
     private Integer age;
     private Gender gender;
     private String address;
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
     @Column(columnDefinition = "TEXT")
     private String refreshToken;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
@@ -47,17 +47,16 @@ public class User {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
-
     @PrePersist
     public void prePersist() {
         createdAt = Instant.now();
-        createdBy = SecurityUtil.getCurrentUserLogin().orElse(null);
+        createdBy = SecurityUtil.getPrincipalCurrentUserLogin().orElse(null);
     }
 
     @PreUpdate
     public void preUpdate() {
         updatedAt = Instant.now();
-        updatedBy = SecurityUtil.getCurrentUserLogin().orElse(null);
+        updatedBy = SecurityUtil.getPrincipalCurrentUserLogin().orElse(null);
     }
 
 }
