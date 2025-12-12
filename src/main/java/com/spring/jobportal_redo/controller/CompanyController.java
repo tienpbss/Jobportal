@@ -1,7 +1,11 @@
 package com.spring.jobportal_redo.controller;
 
 import com.spring.jobportal_redo.domain.Company;
+import com.spring.jobportal_redo.domain.dto.ApiResponse;
 import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
+import com.spring.jobportal_redo.domain.dto.company.CompanyCreateDto;
+import com.spring.jobportal_redo.domain.dto.company.CompanyResponseDto;
+import com.spring.jobportal_redo.domain.dto.company.CompanyUpdateDto;
 import com.spring.jobportal_redo.service.CompanyService;
 import com.spring.jobportal_redo.util.annotation.ApiMessage;
 import com.turkraft.springfilter.boot.Filter;
@@ -9,48 +13,51 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/companies")
 public class CompanyController {
     private final CompanyService companyService;
+
+    // CREATE company
+    @PostMapping
+    @ApiMessage( message = "Create a company")
+    public CompanyResponseDto createCompany(@RequestBody @Valid CompanyCreateDto createDto) {
+        return companyService.create(createDto);
+    }
+
     // GET all companies
     @GetMapping
-    @ApiMessage(message = "Fetch companies")
-    public ResponseEntity<PagingReturnDto> getAllCompanies(
+    @ApiMessage(message = "Get all companies")
+    public PagingReturnDto getAllCompanies(
             Pageable pageable,
             @Filter Specification<Company> spec
     ) {
-        return ResponseEntity.ok(companyService.getAll(spec, pageable));
+        return companyService.getAll(spec, pageable);
     }
 
     // GET company by id
     @GetMapping("/{id}")
-    public ResponseEntity<Company> getCompanyById(@PathVariable Long id) {
-        Company company = companyService.getById(id);
-        return ResponseEntity.ok(company);
-    }
+    @ApiMessage(message = "Get company by id")
+    public CompanyResponseDto getCompanyById(@PathVariable Long id) {
+        return companyService.getById(id);
 
-    // CREATE company
-    @PostMapping
-    public ResponseEntity<Company> createCompany(@RequestBody @Valid Company company) {
-        return ResponseEntity.ok(companyService.create(company));
     }
 
     // UPDATE company
-    @PutMapping("/{id}")
-    public ResponseEntity<Company> updateCompany(@PathVariable Long id, @RequestBody @Valid Company companyDetails) {
-        Company updatedCompany = companyService.update(id, companyDetails);
-        return ResponseEntity.ok(updatedCompany);
+    @PutMapping
+    @ApiMessage(message = "Update company")
+    public CompanyResponseDto updateCompany(@RequestBody @Valid CompanyUpdateDto updateDto) {
+        return companyService.update(updateDto);
     }
 
     // DELETE company
     @DeleteMapping("/{id}")
+    @ApiMessage(message = "Delete a company")
     public ResponseEntity<Void> deleteCompany(@PathVariable Long id) {
         companyService.delete(id);
         return ResponseEntity.ok().build();

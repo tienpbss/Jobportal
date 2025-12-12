@@ -1,7 +1,5 @@
-package com.spring.jobportal_redo.domain.dto.user;
+package com.spring.jobportal_redo.domain.dto.company;
 
-import com.spring.jobportal_redo.util.constant.Gender;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,12 +11,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateDto {
-    @NotNull
+public class CompanyUpdateDto {
+    @NotNull(message = "Missing id")
     private Long id;
-    @NotBlank(message = "Name cannot be blank")
+    @NotBlank(message = "Name can not be blank")
     private String name;
-    private Integer age;
-    private Gender gender;
+    @NotBlank(message = "Description can not be blank")
+    private String description;
+    @NotBlank(message = "Address can not be blank")
     private String address;
+    private String logo;
 }

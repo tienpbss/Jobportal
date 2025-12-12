@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ApiMessage {
-    String message() default "Don't specific message";
+    String message() default "Not specific message";
 }

@@ -1,9 +1,7 @@
 package com.spring.jobportal_redo.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.jobportal_redo.util.SecurityUtil;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,10 +19,11 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "Name of company can not be blank")
     private String name;
     @Lob
+    @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
     private String address;
     private String logo;
     @OneToMany(
@@ -33,9 +32,7 @@ public class Company {
             fetch = FetchType.LAZY
     )
     private List<User> users = new ArrayList<>();
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
