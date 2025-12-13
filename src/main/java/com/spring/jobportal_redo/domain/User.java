@@ -27,6 +27,7 @@ public class User {
     @Column(nullable = false)
     private String password;
     private Integer age;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String address;
     @ManyToOne

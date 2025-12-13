@@ -32,6 +32,13 @@ public class Company {
             fetch = FetchType.LAZY
     )
     private List<User> users = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "company",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Job> jobs = new ArrayList<>();
+
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
@@ -48,5 +55,15 @@ public class Company {
         this.updatedAt = Instant.now();
         Optional<String> updatedByName = SecurityUtil.getPrincipalCurrentUserLogin();
         this.updatedBy = updatedByName.orElse("");
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+        user.setCompany(this);
+    }
+
+    public void addJob(Job job) {
+        jobs.add(job);
+        job.setCompany(this);
     }
 }

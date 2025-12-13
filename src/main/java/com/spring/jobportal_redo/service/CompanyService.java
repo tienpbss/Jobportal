@@ -46,12 +46,12 @@ public class CompanyService {
     }
 
     public CompanyResponseDto getById(Long id) {
-        Company company = getCompanyById(id);
+        Company company = getCompanyByIdOrThrow(id);
         return companyMapper.toCompanyResponseDto(company);
     }
 
     public CompanyResponseDto update(CompanyUpdateDto updateDto) {
-        Company company = getCompanyById(updateDto.getId());
+        Company company = getCompanyByIdOrThrow(updateDto.getId());
         if (!updateDto.getName().equals(company.getName())) {
             checkNameCompanyExists(updateDto.getName());
         }
@@ -71,7 +71,7 @@ public class CompanyService {
         }
     }
 
-    public Company getCompanyById(Long id) {
+    public Company getCompanyByIdOrThrow(Long id) {
         return companyRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Company not found with id " + id)
         );
