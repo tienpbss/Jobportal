@@ -3,16 +3,14 @@ package com.spring.jobportal_redo.domain;
 import com.spring.jobportal_redo.util.SecurityUtil;
 import com.spring.jobportal_redo.util.constant.Gender;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

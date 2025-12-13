@@ -66,4 +66,14 @@ public class Company {
         jobs.add(job);
         job.setCompany(this);
     }
+
+    public void removeUser(User user) {
+        users.remove(user);
+        user.setCompany(null);
+    }
+
+    public void removeJob(Job job) {
+        jobs.remove(job);
+        job.setCompany(null);
+    }
 }
