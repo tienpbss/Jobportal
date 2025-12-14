@@ -13,8 +13,8 @@ public interface JobMapper {
     @Mapping(target = "company", ignore = true)
     @Mapping(target = "skills", ignore = true)
     Job toJob(JobCreateDto createDto);
-    JobResponseDto toResponseDtoList(Job job);
-    List<JobResponseDto> toResponseDtoList(List<Job> jobs);
+    JobResponseDto toResponseDto(Job job);
+    List<JobResponseDto> toResponseDto(List<Job> jobs);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "company", ignore = true)
