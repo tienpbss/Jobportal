@@ -6,6 +6,7 @@ import com.spring.jobportal_redo.domain.dto.job.JobCreateDto;
 import com.spring.jobportal_redo.domain.dto.job.JobResponseDto;
 import com.spring.jobportal_redo.domain.dto.job.JobUpdateDto;
 import com.spring.jobportal_redo.service.JobService;
+import com.spring.jobportal_redo.util.annotation.ApiMessage;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public class JobController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiMessage(message = "Deleted job successfully")
     public void delete(@PathVariable Long id) {
         jobService.delete(id);
     }

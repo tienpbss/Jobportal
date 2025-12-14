@@ -73,4 +73,11 @@ public class Job {
         this.skills.addAll(skills);
         skills.forEach(this::addSkill);
     }
+
+    public void clearSkills() {
+        for (Skill skill : new HashSet<>(skills)) {
+            skill.getJobs().remove(this);
+        }
+        this.skills.clear();
+    }
 }

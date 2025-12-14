@@ -10,7 +10,6 @@ import com.spring.jobportal_redo.domain.dto.job.JobResponseDto;
 import com.spring.jobportal_redo.domain.dto.job.JobUpdateDto;
 import com.spring.jobportal_redo.repository.JobRepository;
 import com.spring.jobportal_redo.util.mapper.JobMapper;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,12 +40,12 @@ public class JobService {
         job.addSkills(skills);
         company.addJob(job);
         Job savedJob = jobRepository.save(job);
-        return jobMapper.toResponseDtoList(savedJob);
+        return jobMapper.toResponseDto(savedJob);
     }
 
     public JobResponseDto getById(Long id) {
         Job job = getJobByIdOrThrow(id);
-        return jobMapper.toResponseDtoList(job);
+        return jobMapper.toResponseDto(job);
     }
 
     public PagingReturnDto getAll(Specification<Job> specification, Pageable pageable) {
@@ -56,7 +56,7 @@ public class JobService {
                 .totalPages(page.getTotalPages())
                 .totalElements(page.getTotalElements())
                 .build();
-        List<JobResponseDto> jobResponseDtoList = jobMapper.toResponseDtoList(page.getContent());
+        List<JobResponseDto> jobResponseDtoList = jobMapper.toResponseDto(page.getContent());
         return PagingReturnDto.builder()
                 .meta(mt)
                 .result(jobResponseDtoList)
@@ -64,14 +64,26 @@ public class JobService {
     }
 
     public JobResponseDto update(JobUpdateDto updateDto) {
-//        Job job = getJobByIdOrThrow(updateDto.getId());
-//        jobMapper.updateJobFromDto(updateDto, job);
-//        Job updatedJob = jobRepository.save(job);
-        return null;
+        Job job = getJobByIdOrThrow(updateDto.getId());
+        jobMapper.updateJobFromDto(updateDto, job);
+        Set<Long> oldSkillIds = new HashSet<>();
+        for (Skill skill : job.getSkills()) {
+            oldSkillIds.add(skill.getId());
+        }
+        if (!updateDto.getSkillIds().equals(oldSkillIds)) {
+            job.clearSkills();
+            HashSet<Skill> updatedSkills = updateDto
+                    .getSkillIds().stream()
+                    .map(skillService::getByIdOrThrow)
+                    .collect(Collectors.toCollection(HashSet::new));
+            job.addSkills(updatedSkills);
+        }
+        Job updatedJob = jobRepository.save(job);
+        return jobMapper.toResponseDto(updatedJob);
     }
 
     public void delete(Long id) {
-        return;
+        jobRepository.delete(getJobByIdOrThrow(id));
     }
 
     public Job getJobByIdOrThrow(Long id) {
@@ -80,9 +92,4 @@ public class JobService {
         );
     }
 
-    public void updateCompany(Job job, Long companyId) {
-        Company company = companyService.getCompanyByIdOrThrow(companyId);
-        company.getJobs().remove(job);
-
-    }
 }

@@ -1,6 +1,7 @@
 package com.spring.jobportal_redo.domain.dto.job;
 
 import com.spring.jobportal_redo.util.constant.JobLevel;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,18 +24,18 @@ public class JobUpdateDto {
     private String name;
     @NotBlank(message = "Location can not be blank")
     private String location;
-    @NotBlank(message = "Salary can not be blank")
+    @NotNull(message = "Salary can not be blank")
+    @Min(value = 0, message = "Salary min = 0")
     private Double salary;
-    @NotBlank(message = "Quantity can not be blank")
+    @NotNull(message = "Quantity can not be blank")
     private Integer quantity;
-    @NotBlank(message = "Level can not be blank")
+    @NotNull(message = "Level can not be blank")
     private JobLevel level;
     @NotBlank(message = "Description can not be blank")
     private String description;
     private Instant startDate;
     private Instant endDate;
-    @NotBlank(message = "Active can not be blank")
+    @NotNull(message = "Active can not be blank")
     private Boolean active;
-    private Long companyId;
-    Set<Long> skillIds = new HashSet<>();
+    private Set<Long> skillIds = new HashSet<>();
 }
