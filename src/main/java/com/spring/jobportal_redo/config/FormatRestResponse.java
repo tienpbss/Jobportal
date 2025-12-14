@@ -30,7 +30,7 @@ public class FormatRestResponse implements ResponseBodyAdvice<Object> {
             ServerHttpResponse response) {
 
         // Do not wrap if already RestResponse
-        if (body instanceof ApiResponse) {
+        if (body instanceof ApiResponse || body instanceof String) {
             return body;
         }
 

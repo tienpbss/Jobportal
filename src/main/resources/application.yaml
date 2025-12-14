@@ -19,6 +19,12 @@ spring:
       pageable:
         # paging start at 1
         one-indexed-parameters: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+    upload-file:
+      base-path: /home/tienp/Learning/Java/upload_v2/
 jwt:
   key: ${JWT_KEY}
   expiration: ${JWT_EXPIRATION}
