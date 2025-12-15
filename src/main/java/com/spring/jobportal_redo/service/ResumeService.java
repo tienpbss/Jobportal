@@ -31,7 +31,7 @@ public class ResumeService {
 
     public ResumeResponseDto create(@Valid ResumeCreateDto dto) {
         User user = userService.getUserByIdOrThrow(dto.getUserId());
-        Job job = jobService.getJobByIdOrThrow(dto.getJobId());;
+        Job job = jobService.getJobByIdOrThrow(dto.getJobId());
         Resume resume = resumeMapper.toResume(dto);
         user.addResume(resume);
         job.addResume(resume);
