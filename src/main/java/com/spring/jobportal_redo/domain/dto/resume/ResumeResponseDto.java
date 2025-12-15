@@ -1,10 +1,7 @@
 package com.spring.jobportal_redo.domain.dto.resume;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.spring.jobportal_redo.domain.Job;
-import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.util.constant.ResumeStatus;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

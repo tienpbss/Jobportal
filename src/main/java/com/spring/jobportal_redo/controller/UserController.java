@@ -1,7 +1,6 @@
 package com.spring.jobportal_redo.controller;
 
 import com.spring.jobportal_redo.domain.User;
-import com.spring.jobportal_redo.domain.dto.ApiResponse;
 import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
 import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
 import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
@@ -15,8 +14,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

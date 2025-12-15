@@ -1,6 +1,5 @@
 package com.spring.jobportal_redo.domain.dto.resume;
 
-import com.spring.jobportal_redo.util.constant.ResumeStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

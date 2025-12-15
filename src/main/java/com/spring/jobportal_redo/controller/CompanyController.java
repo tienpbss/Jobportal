@@ -1,7 +1,6 @@
 package com.spring.jobportal_redo.controller;
 
 import com.spring.jobportal_redo.domain.Company;
-import com.spring.jobportal_redo.domain.dto.ApiResponse;
 import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
 import com.spring.jobportal_redo.domain.dto.company.CompanyCreateDto;
 import com.spring.jobportal_redo.domain.dto.company.CompanyResponseDto;
@@ -13,7 +12,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
