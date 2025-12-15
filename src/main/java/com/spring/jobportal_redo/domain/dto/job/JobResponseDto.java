@@ -1,5 +1,6 @@
 package com.spring.jobportal_redo.domain.dto.job;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.jobportal_redo.domain.Company;
 import com.spring.jobportal_redo.domain.Skill;
 import com.spring.jobportal_redo.util.constant.JobLevel;
@@ -24,12 +25,16 @@ public class JobResponseDto {
     private Integer quantity;
     private JobLevel level;
     private String description;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant startDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant endDate;
     private Boolean active;
     private CompanyDto company;
     Set<SkillDto> skills = new HashSet<>();
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
