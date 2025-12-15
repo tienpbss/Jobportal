@@ -1,8 +1,6 @@
 package com.spring.jobportal_redo.domain.dto.job;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.spring.jobportal_redo.domain.Company;
-import com.spring.jobportal_redo.domain.Skill;
 import com.spring.jobportal_redo.util.constant.JobLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
