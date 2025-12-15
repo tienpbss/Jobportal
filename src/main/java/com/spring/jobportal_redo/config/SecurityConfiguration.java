@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authz ->
                         authz
                                 .requestMatchers("/", "/error", "/api/v1/auth/login", "/api/v1/auth/refresh", "/storage/**").permitAll()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2
