@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -31,6 +33,10 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Resume> resumes = new ArrayList<>();
+
     @Column(columnDefinition = "TEXT")
     private String refreshToken;
     private Instant createdAt;
@@ -52,6 +58,11 @@ public class User {
     public void assignCompany(Company company) {
         this.company = company;
         company.getUsers().add(this);
+    }
+
+    public void addResume(Resume resume) {
+        resumes.add(resume);
+        resume.setUser(this);
     }
 
 }

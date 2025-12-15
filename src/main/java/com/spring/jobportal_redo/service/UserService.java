@@ -43,7 +43,7 @@ public class UserService {
     }
 
     public UserResponseDto getById(Long id) {
-        User user = getUserOrThrow(id);
+        User user = getUserByIdOrThrow(id);
         return userMapper.toResponse(user);
     }
 
@@ -66,18 +66,18 @@ public class UserService {
     }
 
     public UserResponseDto update(UserUpdateDto updateDto) {
-        User user = getUserOrThrow(updateDto.getId());
+        User user = getUserByIdOrThrow(updateDto.getId());
         userMapper.updateEntityFromDto(updateDto, user);
         User savedUser = userRepository.save(user);
         return userMapper.toResponse(savedUser);
     }
 
     public void deleteUser(Long id) {
-        User user = getUserOrThrow(id);
+        User user = getUserByIdOrThrow(id);
         userRepository.delete(user);
     }
 
-    public User getUserOrThrow(Long id) {
+    public User getUserByIdOrThrow(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
     }

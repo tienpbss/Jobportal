@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,6 +49,10 @@ public class Job {
             inverseJoinColumns = @JoinColumn(name = "skill_id")
     )
     Set<Skill> skills = new HashSet<>();
+
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Resume> resumes = new ArrayList<>();
+
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
@@ -79,5 +85,10 @@ public class Job {
             skill.getJobs().remove(this);
         }
         this.skills.clear();
+    }
+
+    public void addResume(Resume resume) {
+        resumes.add(resume);
+        resume.setJob(this);
     }
 }
