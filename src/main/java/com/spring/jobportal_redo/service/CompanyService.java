@@ -61,7 +61,8 @@ public class CompanyService {
     }
 
     public void delete(Long id) {
-        getById(id);
+        Company company = getCompanyByIdOrThrow(id);
+
         companyRepository.deleteById(id);
     }
 

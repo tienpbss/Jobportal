@@ -1,5 +1,6 @@
 package com.spring.jobportal_redo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.jobportal_redo.util.SecurityUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

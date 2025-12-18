@@ -38,12 +38,15 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationEntryPoint entryPoint) throws Exception {
+        String[] whiteListedEndpoints = new String[]{
+                "/", "/error", "/api/v1/auth/login", "/api/v1/auth/refresh", "/storage/**"
+        };
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz ->
                         authz
-                                .requestMatchers("/", "/error", "/api/v1/auth/login", "/api/v1/auth/refresh", "/storage/**").permitAll()
+                                .requestMatchers(whiteListedEndpoints).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

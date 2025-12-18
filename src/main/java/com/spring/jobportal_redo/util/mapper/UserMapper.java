@@ -5,9 +5,7 @@ import com.spring.jobportal_redo.domain.dto.JwtResponseDto;
 import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
 import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
 import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -21,5 +19,6 @@ public interface UserMapper {
     JwtResponseDto.UserLogin toUserLogin(User user);
     @Mapping(target = "id", ignore = true)           // id never changes
     @Mapping(target = "company", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(UserUpdateDto dto, @MappingTarget User user);
 }

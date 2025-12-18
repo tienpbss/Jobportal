@@ -94,4 +94,11 @@ public class Job {
         resumes.add(resume);
         resume.setJob(this);
     }
+
+    public void removeAllRelations(Resume resume) {
+        for (Skill skill : new HashSet<>(skills)) {
+            skill.getJobs().remove(this);
+        }
+        this.skills.clear();
+    }
 }

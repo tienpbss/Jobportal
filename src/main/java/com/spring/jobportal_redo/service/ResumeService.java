@@ -18,6 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +72,6 @@ public class ResumeService {
 
     public Resume getResumeByIdOrThrow(Long id) {
         return resumeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Resume not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Resume not found with id: " + id));
     }
 }

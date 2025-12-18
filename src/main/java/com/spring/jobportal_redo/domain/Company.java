@@ -76,4 +76,5 @@ public class Company {
         jobs.remove(job);
         job.setCompany(null);
     }
+
 }
