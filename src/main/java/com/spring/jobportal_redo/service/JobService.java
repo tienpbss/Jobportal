@@ -3,18 +3,21 @@ package com.spring.jobportal_redo.service;
 import com.spring.jobportal_redo.domain.Company;
 import com.spring.jobportal_redo.domain.Job;
 import com.spring.jobportal_redo.domain.Skill;
+import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.domain.dto.MetaPaging;
 import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
 import com.spring.jobportal_redo.domain.dto.job.JobCreateDto;
 import com.spring.jobportal_redo.domain.dto.job.JobResponseDto;
 import com.spring.jobportal_redo.domain.dto.job.JobUpdateDto;
 import com.spring.jobportal_redo.repository.JobRepository;
+import com.spring.jobportal_redo.util.SecurityUtil;
 import com.spring.jobportal_redo.util.mapper.JobMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,15 +26,17 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class JobService {
 
     private final JobRepository jobRepository;
     private final CompanyService companyService;
     private final SkillService skillService;
     private final JobMapper jobMapper;
+    private final UserService userService;
 
     public JobResponseDto create(JobCreateDto createDto) {
-        Company company = companyService.getCompanyByIdOrThrow(createDto.getCompanyId());
+        Company company = getCompanyOfLoginUser();
         HashSet<Skill> skills = createDto
                 .getSkillIds().stream()
                 .map(skillService::getByIdOrThrow)
@@ -90,6 +95,14 @@ public class JobService {
         return jobRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Job Not Found with id: " + id)
         );
+    }
+
+    public Company getCompanyOfLoginUser() {
+        User user = userService.getUserLogin();
+        if (user.getCompany() == null) {
+            throw new IllegalArgumentException("User is not associated with any company");
+        }
+        return user.getCompany();
     }
 
 }

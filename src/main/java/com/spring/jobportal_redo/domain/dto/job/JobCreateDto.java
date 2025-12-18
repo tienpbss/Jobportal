@@ -35,6 +35,5 @@ public class JobCreateDto {
     private Instant endDate;
     @NotNull(message = "Active can not be null")
     private Boolean active;
-    private Long companyId;
     Set<Long> skillIds = new HashSet<>();
 }
