@@ -57,13 +57,13 @@ public class CompanyService {
         }
         companyMapper.updateCompanyFromDto(updateDto, company);
         Company company1 = companyRepository.save(company);
-        return companyMapper.toCompanyResponseDto(company);
+        return companyMapper.toCompanyResponseDto(company1);
     }
 
     public void delete(Long id) {
         Company company = getCompanyByIdOrThrow(id);
 
-        companyRepository.deleteById(id);
+        companyRepository.delete(company);
     }
 
     public void checkNameCompanyExists(String name) {
