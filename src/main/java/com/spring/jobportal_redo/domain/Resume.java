@@ -13,7 +13,6 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

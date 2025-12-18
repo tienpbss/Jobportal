@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "Jobs")
+@Table(name = "jobs")
 @Getter
 @Setter
 @NoArgsConstructor
