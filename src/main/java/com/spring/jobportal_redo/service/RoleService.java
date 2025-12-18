@@ -67,7 +67,7 @@ public class RoleService {
 
     public void assignPermissionToRoleFromIds(Set<Long> permissionIds, Role role) {
         if (role.getPermissions() == null) {
-            role.setPermissions(new HashSet<Permission>());
+            role.setPermissions(new HashSet<>());
         }
         for (Long permissionId : permissionIds) {
             Permission permission = permissionService.getPermissionByIdOrThrow(permissionId);
