@@ -8,7 +8,6 @@ import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
 import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
 import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
 import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
-import com.spring.jobportal_redo.repository.CompanyRepository;
 import com.spring.jobportal_redo.repository.UserRepository;
 import com.spring.jobportal_redo.util.SecurityUtil;
 import com.spring.jobportal_redo.util.mapper.UserMapper;

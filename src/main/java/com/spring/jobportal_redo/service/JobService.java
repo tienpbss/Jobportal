@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 public class JobService {
 
     private final JobRepository jobRepository;
-    private final CompanyService companyService;
     private final SkillService skillService;
     private final JobMapper jobMapper;
     private final UserService userService;
