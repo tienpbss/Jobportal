@@ -2,7 +2,6 @@ package com.spring.jobportal_redo.util;
 
 import com.nimbusds.jose.util.Base64;
 import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
-import com.spring.jobportal_redo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
