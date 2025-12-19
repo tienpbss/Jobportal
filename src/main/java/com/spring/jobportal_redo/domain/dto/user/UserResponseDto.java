@@ -2,6 +2,7 @@ package com.spring.jobportal_redo.domain.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.jobportal_redo.domain.dto.RefResponseDto;
+import com.spring.jobportal_redo.domain.dto.role.RoleResponseDto;
 import com.spring.jobportal_redo.util.constant.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class UserResponseDto {
     private Gender gender;
     private String address;
     private RefResponseDto company;
+    private RoleResponseDto role;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")

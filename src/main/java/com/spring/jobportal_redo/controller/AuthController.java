@@ -38,20 +38,15 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = userService.getByEmail(loginDto.getEmail());
-        JwtResponseDto.UserLogin userLogin = new JwtResponseDto.UserLogin(
-                user.getId(),
-                user.getEmail(),
-                user.getName()
-        );
+        UserResponseDto userResponse = userMapper.toResponse(user);
 
-        String token = securityUtil.createToken(userLogin);
-
+        String token = securityUtil.createToken(userResponse);
 
         JwtResponseDto jwtResponseDto = new JwtResponseDto();
         jwtResponseDto.setToken(token);
-        jwtResponseDto.setUser(userLogin);
+        jwtResponseDto.setUser(userResponse);
 
-        String refreshToken = securityUtil.createRefreshToken(jwtResponseDto.getUser());
+        String refreshToken = securityUtil.createRefreshToken(userResponse);
         ResponseCookie cookie = ResponseCookie.from("refresh_token", refreshToken)
                 .httpOnly(true)           // Prevents JavaScript access (recommended for auth)
                 .secure(true)             // Only send over HTTPS (set false in dev if needed)
@@ -79,13 +74,13 @@ public class AuthController {
             throw new IllegalArgumentException("Invalid refresh token");
         }
         String email = jwt.getSubject();
-        JwtResponseDto.UserLogin userLogin = userLoginFromEmail(email);
+        UserResponseDto userResponseDto = userLoginFromEmail(email);
 
-        String access_token = securityUtil.createToken(userLogin);
+        String access_token = securityUtil.createToken(userResponseDto);
 
         JwtResponseDto jwtResponseDto = new JwtResponseDto();
         jwtResponseDto.setToken(access_token);
-        jwtResponseDto.setUser(userLogin);
+        jwtResponseDto.setUser(userResponseDto);
         return ResponseEntity.ok(jwtResponseDto);
     }
 
@@ -108,9 +103,9 @@ public class AuthController {
                 .build();
     }
 
-    private JwtResponseDto.UserLogin userLoginFromEmail(String email) {
+    private UserResponseDto userLoginFromEmail(String email) {
         User user = userService.getByEmail(email);
-        return userMapper.toUserLogin(user);
+        return userMapper.toResponse(user);
     }
 
 

@@ -1,5 +1,6 @@
 package com.spring.jobportal_redo.domain.dto;
 
+import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
 import lombok.*;
 
 @Data
@@ -8,15 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class JwtResponseDto {
     private String token;
-    private UserLogin user;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserLogin {
-        private Long id;
-        private String email;
-        private String username;
-    }
+    private UserResponseDto user;
 }

@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/resumes")
 @RequiredArgsConstructor
@@ -50,4 +52,8 @@ public class ResumeController {
         resumeService.delete(id);
     }
 
+    @PostMapping("/by-user")
+    public List<ResumeResponseDto> getResumeOfLoginUser() {
+        return resumeService.getResumeOfLoginUser();
+    }
 }

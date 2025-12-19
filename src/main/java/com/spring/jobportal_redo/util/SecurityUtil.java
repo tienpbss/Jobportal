@@ -2,6 +2,7 @@ package com.spring.jobportal_redo.util;
 
 import com.nimbusds.jose.util.Base64;
 import com.spring.jobportal_redo.domain.dto.JwtResponseDto;
+import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
 import com.spring.jobportal_redo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,30 +33,32 @@ public class SecurityUtil {
     @Value("${jwt.key}")
     private String jwtKey;
 
-    public String createToken(JwtResponseDto.UserLogin userLogin) {
+    public String createToken(UserResponseDto userResponseDto) {
         Instant now = Instant.now();
         Instant validity = now.plusSeconds(Long.parseLong(jwtExpiration));
 
-        List<String> permissions = Arrays.asList("ROLE_USER_CREATE", "ROLE_USER_UPDATE", "ROLE_USER_DELETE");
+        String roleUser = userResponseDto.getRole() != null
+                ? userResponseDto.getRole().getName()
+                : "";
+
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuedAt(now)
                 .expiresAt(validity)
-                .subject(userLogin.getEmail())
-                .claim("user", userLogin)
-                .claim("permissions", permissions)
+                .subject(userResponseDto.getEmail())
+                .claim("userId", userResponseDto.getId())
+                .claim("role", roleUser)
                 .build();
         JwsHeader jwtHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return jwtEncoder.encode(JwtEncoderParameters.from(jwtHeader, jwtClaimsSet)).getTokenValue();
     }
 
-    public String createRefreshToken(JwtResponseDto.UserLogin userLogin) {
+    public String createRefreshToken(UserResponseDto userResponseDto) {
         Instant now = Instant.now();
         Instant validity = now.plusSeconds(Long.parseLong(jwtExpiration));
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuedAt(now)
                 .expiresAt(validity)
-                .subject(userLogin.getEmail())
-                .claim("user", userLogin)
+                .subject(userResponseDto.getEmail())
                 .build();
         JwsHeader jwtHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return jwtEncoder.encode(JwtEncoderParameters.from(jwtHeader, jwtClaimsSet)).getTokenValue();

@@ -9,6 +9,7 @@ import com.spring.jobportal_redo.domain.dto.resume.ResumeCreateDto;
 import com.spring.jobportal_redo.domain.dto.resume.ResumeResponseDto;
 import com.spring.jobportal_redo.domain.dto.resume.ResumeUpdateDto;
 import com.spring.jobportal_redo.repository.ResumeRepository;
+import com.spring.jobportal_redo.util.SecurityUtil;
 import com.spring.jobportal_redo.util.mapper.ResumeMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,8 @@ public class ResumeService {
 
     private final UserService userService;
     private final JobService jobService;
+
+    private final SecurityUtil securityUtil;
 
     public ResumeResponseDto create(@Valid ResumeCreateDto dto) {
         User user = userService.getUserByIdOrThrow(dto.getUserId());
@@ -63,6 +66,7 @@ public class ResumeService {
         Resume updatedResume = resumeRepository.save(existingResume);
         return resumeMapper.toResumeResponseDto(updatedResume);
     }
+
     public void delete(Long id) {
         Resume existingResume = getResumeByIdOrThrow(id);
         existingResume.unAssignUser();
@@ -70,8 +74,17 @@ public class ResumeService {
         resumeRepository.delete(existingResume);
     }
 
+    public List<ResumeResponseDto> getResumeOfLoginUser() {
+        String email = SecurityUtil.getPrincipalCurrentUserLogin().orElse("");
+        User user = userService.getUserByEmailOrThrow(email);
+        List<Resume>  resumes = resumeRepository.findByUserId(user.getId());
+        return resumeMapper.toResumeResponseDtoList(resumes);
+
+    }
+
     public Resume getResumeByIdOrThrow(Long id) {
         return resumeRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Resume not found with id: " + id));
     }
 }
+

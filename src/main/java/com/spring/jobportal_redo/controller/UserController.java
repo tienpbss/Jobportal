@@ -2,9 +2,7 @@ package com.spring.jobportal_redo.controller;
 
 import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
-import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
-import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
-import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
+import com.spring.jobportal_redo.domain.dto.user.*;
 import com.spring.jobportal_redo.service.UserService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
@@ -30,6 +28,11 @@ public class UserController {
         return userService.create(createDto);
     }
 
+    @PostMapping("/register")
+    public UserResponseDto register(@RequestBody @Valid UserRegisterDto dto) {
+        return userService.register(dto);
+    }
+
 
     // GET all users
     @GetMapping
@@ -45,11 +48,22 @@ public class UserController {
     public UserResponseDto getById(@PathVariable Long id) {
         return userService.getById(id);
     }
+    // GET user by id
+    @GetMapping("/get/info")
+    public UserResponseDto getInfoUserLogin() {
+        return userService.getInfoUserLogin();
+    }
+
 
     // UPDATE user
     @PutMapping
     public UserResponseDto update(@RequestBody @Valid UserUpdateDto updateDto) {
         return userService.update(updateDto);
+    }
+
+    @PutMapping("/edit-info")
+    public UserResponseDto editInfo(@RequestBody @Valid UserEditInfoDto editDto) {
+        return userService.editInfo(editDto);
     }
 
     // DELETE user

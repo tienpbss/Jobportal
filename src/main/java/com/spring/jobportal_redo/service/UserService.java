@@ -5,9 +5,7 @@ import com.spring.jobportal_redo.domain.Role;
 import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.domain.dto.MetaPaging;
 import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
-import com.spring.jobportal_redo.domain.dto.user.UserCreateDto;
-import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
-import com.spring.jobportal_redo.domain.dto.user.UserUpdateDto;
+import com.spring.jobportal_redo.domain.dto.user.*;
 import com.spring.jobportal_redo.repository.UserRepository;
 import com.spring.jobportal_redo.util.SecurityUtil;
 import com.spring.jobportal_redo.util.mapper.UserMapper;
@@ -49,6 +47,12 @@ public class UserService {
         return userMapper.toResponse(user);
     }
 
+    public UserResponseDto getInfoUserLogin() {
+        String email = SecurityUtil.getPrincipalCurrentUserLogin().orElse("");
+        User user = getByEmail(email);
+        return userMapper.toResponse(user);
+    }
+
     public User getByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found with email"));
     }
@@ -73,6 +77,13 @@ public class UserService {
         return userMapper.toResponse(savedUser);
     }
 
+    public UserResponseDto register(UserRegisterDto registerDto) {
+        checkEmailExists(registerDto.getEmail());
+        User user = userMapper.toUser(registerDto);
+        User savedUser = userRepository.save(user);
+        return userMapper.toResponse(savedUser);
+    }
+
     public UserResponseDto update(UserUpdateDto updateDto) {
         User user = getUserByIdOrThrow(updateDto.getId());
         Company company = (updateDto.getCompanyId() == null)
@@ -90,6 +101,14 @@ public class UserService {
             user.setRole(role);
         }
 
+        User savedUser = userRepository.save(user);
+        return userMapper.toResponse(savedUser);
+    }
+
+    public UserResponseDto editInfo(UserEditInfoDto dto) {
+        String email = SecurityUtil.getPrincipalCurrentUserLogin().orElse("");
+        User user = getUserByEmailOrThrow(email);
+        userMapper.updateEntityFromDto(dto, user);
         User savedUser = userRepository.save(user);
         return userMapper.toResponse(savedUser);
     }
@@ -117,6 +136,11 @@ public class UserService {
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already exists");
         }
+    }
+
+    public User getUserByEmailOrThrow(String email) {
+        return userRepository.getByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException("User not found with email"));
     }
 
     public User getUserLogin() {
