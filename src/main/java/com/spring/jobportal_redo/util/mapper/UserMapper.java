@@ -1,7 +1,6 @@
 package com.spring.jobportal_redo.util.mapper;
 
 import com.spring.jobportal_redo.domain.User;
-import com.spring.jobportal_redo.domain.dto.JwtResponseDto;
 import com.spring.jobportal_redo.domain.dto.user.*;
 import org.mapstruct.*;
 

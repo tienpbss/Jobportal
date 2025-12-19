@@ -1,7 +1,6 @@
 package com.spring.jobportal_redo.util;
 
 import com.nimbusds.jose.util.Base64;
-import com.spring.jobportal_redo.domain.dto.JwtResponseDto;
 import com.spring.jobportal_redo.domain.dto.user.UserResponseDto;
 import com.spring.jobportal_redo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 @Service
