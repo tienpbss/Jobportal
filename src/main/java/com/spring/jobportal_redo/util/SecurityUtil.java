@@ -23,7 +23,6 @@ import java.util.Optional;
 public class SecurityUtil {
     public static final MacAlgorithm JWT_ALGORITHM = MacAlgorithm.HS512;
     private final JwtEncoder jwtEncoder;
-    private final UserService userService;
     @Value("${jwt.expiration}")
     private String jwtExpiration;
 

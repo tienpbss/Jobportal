@@ -31,7 +31,6 @@ public class ResumeService {
     private final UserService userService;
     private final JobService jobService;
 
-    private final SecurityUtil securityUtil;
 
     public ResumeResponseDto create(@Valid ResumeCreateDto dto) {
         User user = userService.getUserByIdOrThrow(dto.getUserId());
