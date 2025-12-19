@@ -1,6 +1,7 @@
 package com.spring.jobportal_redo.service;
 
 import com.spring.jobportal_redo.domain.Company;
+import com.spring.jobportal_redo.domain.Role;
 import com.spring.jobportal_redo.domain.User;
 import com.spring.jobportal_redo.domain.dto.MetaPaging;
 import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
@@ -25,8 +26,9 @@ import java.util.NoSuchElementException;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final CompanyRepository companyRepository;
     private final UserMapper userMapper;
+    private final CompanyService companyService;
+    private final RoleService roleService;
 
     public PagingReturnDto getAll(Specification<User> spec, Pageable pageable) {
         Page<User> page = userRepository.findAll(spec, pageable);
@@ -56,11 +58,17 @@ public class UserService {
         checkEmailExists(createDto.getEmail());
         Company company = (createDto.getCompanyId() == null)
                 ? null
-                : companyRepository.findById(createDto.getCompanyId()).orElseThrow(() -> new NoSuchElementException("Company not found"));
+                : companyService.getCompanyByIdOrThrow(createDto.getCompanyId());
+        Role role = (createDto.getRoleId() == null)
+                ? null
+                : roleService.getRoleByIdOrThrow(createDto.getRoleId());
 
         User user = userMapper.toUser(createDto);
         if (company != null) {
             user.assignCompany(company);
+        }
+        if (role != null) {
+            user.assignRole(role);
         }
         User savedUser = userRepository.save(user);
         return userMapper.toResponse(savedUser);
@@ -68,7 +76,21 @@ public class UserService {
 
     public UserResponseDto update(UserUpdateDto updateDto) {
         User user = getUserByIdOrThrow(updateDto.getId());
+        Company company = (updateDto.getCompanyId() == null)
+                ? null
+                : companyService.getCompanyByIdOrThrow(updateDto.getCompanyId());
+        Role role = (updateDto.getRoleId() == null)
+                ? null
+                : roleService.getRoleByIdOrThrow(updateDto.getRoleId());
         userMapper.updateEntityFromDto(updateDto, user);
+
+        if (company != null) {
+            user.setCompany(company);
+        }
+        if (role != null) {
+            user.setRole(role);
+        }
+
         User savedUser = userRepository.save(user);
         return userMapper.toResponse(savedUser);
     }

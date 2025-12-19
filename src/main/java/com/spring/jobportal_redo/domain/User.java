@@ -34,6 +34,10 @@ public class User {
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Resume> resumes = new ArrayList<>();
 
@@ -63,6 +67,11 @@ public class User {
     public void addResume(Resume resume) {
         resumes.add(resume);
         resume.setUser(this);
+    }
+
+    public void assignRole(Role role) {
+        this.role = role;
+        role.getUsers().add(this);
     }
 
 }

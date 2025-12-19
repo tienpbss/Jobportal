@@ -43,7 +43,7 @@ public class RoleService {
 
     public PagingReturnDto getAll(Specification<Role> spec, Pageable pageable) {
         Page<Role> page = roleRepository.findAll(spec, pageable);
-        MetaPaging mt = new MetaPaging(page.getNumber() +1, page.getSize(), page.getTotalPages(), page.getTotalElements());
+        MetaPaging mt = new MetaPaging(page.getNumber() + 1, page.getSize(), page.getTotalPages(), page.getTotalElements());
         List<RoleResponseDto> permissionResponseDtoList = roleMapper.toRoleResponseDtoList(page.getContent());
         return new PagingReturnDto(mt, permissionResponseDtoList);
     }

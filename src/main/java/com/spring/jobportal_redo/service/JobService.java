@@ -10,7 +10,6 @@ import com.spring.jobportal_redo.domain.dto.job.JobCreateDto;
 import com.spring.jobportal_redo.domain.dto.job.JobResponseDto;
 import com.spring.jobportal_redo.domain.dto.job.JobUpdateDto;
 import com.spring.jobportal_redo.repository.JobRepository;
-import com.spring.jobportal_redo.util.SecurityUtil;
 import com.spring.jobportal_redo.util.mapper.JobMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

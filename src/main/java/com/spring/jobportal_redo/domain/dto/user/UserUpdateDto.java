@@ -13,11 +13,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserUpdateDto {
-    @NotNull
+    @NotNull(message = "Id cannot be null")
     private Long id;
     @NotBlank(message = "Name cannot be blank")
     private String name;
     private Integer age;
     private Gender gender;
     private String address;
+    private Long companyId;
+    private Long roleId;
 }

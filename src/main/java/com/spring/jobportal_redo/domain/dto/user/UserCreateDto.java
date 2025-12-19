@@ -24,4 +24,5 @@ public class UserCreateDto {
     private Gender gender;
     private String address;
     private Long companyId;
+    private Long roleId;
 }

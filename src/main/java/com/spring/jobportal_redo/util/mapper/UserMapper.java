@@ -11,14 +11,12 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(target = "company", ignore = true)
     User toUser(UserCreateDto dto);
     UserResponseDto toResponse(User user);
     List<UserResponseDto> toResponseList(List<User> users);
 
     JwtResponseDto.UserLogin toUserLogin(User user);
     @Mapping(target = "id", ignore = true)           // id never changes
-    @Mapping(target = "company", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(UserUpdateDto dto, @MappingTarget User user);
 }
