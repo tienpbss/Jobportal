@@ -1,6 +1,5 @@
 package com.spring.jobportal_redo.config;
 
-import com.spring.jobportal_redo.service.PermissionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
