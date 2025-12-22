@@ -8,18 +8,20 @@ import com.spring.jobportal_redo.domain.dto.PagingReturnDto;
 import com.spring.jobportal_redo.domain.dto.user.*;
 import com.spring.jobportal_redo.repository.UserRepository;
 import com.spring.jobportal_redo.util.SecurityUtil;
+import com.spring.jobportal_redo.util.exception.UnAuthorizationException;
 import com.spring.jobportal_redo.util.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -148,4 +150,22 @@ public class UserService {
         return getByEmail(email);
     }
 
+    public boolean userLoginHasPermission(String urlPattern, String method) {
+        String email = SecurityUtil.getPrincipalCurrentUserLogin().orElse("");
+
+
+        if (email.equals("anonymousUser")) {
+            //If user not login, no need interceptor because it will be blocked by spring security first
+            return true;
+        }
+
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new UnAuthorizationException("User not found with email inside token")
+        );
+        return Optional.ofNullable(user.getRole())
+                .map(Role::getPermissions)
+                .orElse(Collections.emptySet())
+                .stream()
+                .anyMatch(p -> p.getApiPath().equals(urlPattern) && p.getMethod().equals(method));
+    }
 }

@@ -6,6 +6,7 @@ import com.nimbusds.jose.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -38,15 +39,19 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationEntryPoint entryPoint) throws Exception {
-        String[] whiteListedEndpoints = new String[]{
+        String[] whiteListEndpoints = new String[]{
                 "/", "/error", "/api/v1/auth/login", "/api/v1/auth/refresh", "/storage/**"
+        };
+        String[] whiteListGetEndpoints = new String[]{
+                "/api/v1/jobs/**", "/api/v1/companies/**", "/api/v1/skills/**"
         };
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz ->
                         authz
-                                .requestMatchers(whiteListedEndpoints).permitAll()
+                                .requestMatchers(whiteListEndpoints).permitAll()
+                                .requestMatchers(HttpMethod.GET, whiteListGetEndpoints).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -42,6 +42,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+    @ExceptionHandler({
+            UnAuthorizationException.class
+    })
+    public ResponseEntity<ApiResponse<Void>> handleUnAuthorizationException(UnAuthorizationException ex) {
+        ApiResponse<Void> response = new ApiResponse<>(HttpStatus.UNAUTHORIZED, ex.getMessage());
+        return ResponseEntity.badRequest().body(response);
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleAllException(Exception ex) throws Exception {
