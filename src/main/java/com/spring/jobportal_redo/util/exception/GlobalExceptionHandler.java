@@ -20,7 +20,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        System.out.println(ex.getBindingResult().getFieldErrors().toString());
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
         ApiResponse<Void> response = new ApiResponse<>(HttpStatus.BAD_REQUEST, String.join(",", errors));
@@ -52,7 +51,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void>> handleAllException(Exception ex) throws Exception {
+    public ResponseEntity<ApiResponse<Void>> handleAllException(Exception ex) {
         logger.error("An error occurred during file operation: {}", ex.getMessage(), ex);
         ApiResponse<Void> response = new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
         return ResponseEntity.internalServerError().body(response);
