@@ -12,27 +12,29 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "skills")
+@Table(name = "subscribers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Skill {
+public class Subscriber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(nullable = false)
+    private String email;
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
 
-    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
-    private Set<Job> jobs = new HashSet<>();
-
-    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
-    private Set<Subscriber> subscribers = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "subscriber_skill",  // Join table name
+            joinColumns = @JoinColumn(name = "subscriber_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    Set<Skill> skills = new HashSet<>();
 
     @PrePersist
     public void prePersist() {
@@ -46,17 +48,10 @@ public class Skill {
         updatedBy = SecurityUtil.getPrincipalCurrentUserLogin().orElse(null);
     }
 
-    public void clearJobs() {
-        for (Job job : jobs) {
-            job.getSkills().remove(this);
+    public void clearSkills(){
+        for (Skill skill : skills) {
+            skill.getSubscribers().remove(this);
         }
-        this.jobs.clear();
-    }
-
-    public void clearSubscribers() {
-        for (Subscriber subscriber : subscribers) {
-            subscriber.getSkills().remove(this);
-        }
-        this.subscribers.clear();
+        this.skills.clear();
     }
 }

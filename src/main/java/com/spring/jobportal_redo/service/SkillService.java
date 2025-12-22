@@ -61,6 +61,8 @@ public class SkillService {
 
     public void delete(Long id) {
         Skill skill = getByIdOrThrow(id);
+        skill.clearJobs();
+        skill.clearSubscribers();
         skillRepository.delete(skill);
     }
     public Skill getByIdOrThrow(Long id) {

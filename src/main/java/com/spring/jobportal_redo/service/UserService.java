@@ -150,7 +150,7 @@ public class UserService {
 
     public User getUserLogin() {
         String email = SecurityUtil.getPrincipalCurrentUserLogin().orElse("");
-        return getByEmail(email);
+        return userRepository.findByEmail(email).orElseThrow(() -> new UnAuthorizationException("User not found with email inside token"));
     }
 
     public boolean userLoginHasPermission(String urlPattern, String method) {
@@ -158,7 +158,7 @@ public class UserService {
 
 
         if (email.equals("anonymousUser")) {
-            //If user not login, no need interceptor because it will be blocked by spring security first
+            //If user not login and spring security don't block, no need interceptor because action allowed by use no login
             return true;
         }
 

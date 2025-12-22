@@ -1,7 +1,6 @@
 package com.spring.jobportal_redo.config;
 
 import com.spring.jobportal_redo.service.UserService;
-import com.spring.jobportal_redo.util.exception.UnAuthorizationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -26,9 +25,9 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
         boolean permit = userService.userLoginHasPermission(urlPattern, method);
 
-        if (!permit) {
-            throw new UnAuthorizationException("You do not have permission to take this action");
-        }
+//        if (!permit) {
+//            throw new UnAuthorizationException("You do not have permission to take this action");
+//        }
 
         return true;
     }
