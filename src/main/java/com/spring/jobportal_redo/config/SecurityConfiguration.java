@@ -40,7 +40,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationEntryPoint entryPoint) throws Exception {
         String[] whiteListEndpoints = new String[]{
-                "/", "/error", "/api/v1/auth/login", "/api/v1/auth/refresh", "/storage/**"
+                "/", "/error", "/api/v1/auth/login", "/api/v1/auth/refresh", "/storage/**",
+                "/swagger-ui/**", "/v3/api-docs/**"
         };
         String[] whiteListGetEndpoints = new String[]{
                 "/api/v1/jobs/**", "/api/v1/companies/**", "/api/v1/skills/**"

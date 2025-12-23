@@ -25,6 +25,18 @@ spring:
       max-request-size: 10MB
     upload-file:
       base-path: /home/tienp/Learning/Java/upload_v2/
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_ADDRESS}
+    password: ${EMAIL_PASSKEY}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 jwt:
   key: ${JWT_KEY}
   expiration: ${JWT_EXPIRATION}

@@ -33,9 +33,9 @@ public class CompanyController {
     @ApiMessage(message = "Get all companies")
     public PagingReturnDto getAllCompanies(
             Pageable pageable,
-            @Filter Specification<Company> spec
+            @Filter Specification<Company> filter
     ) {
-        return companyService.getAll(spec, pageable);
+        return companyService.getAll(filter, pageable);
     }
 
     // GET company by id
