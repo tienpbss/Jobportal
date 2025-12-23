@@ -58,6 +58,5 @@ The application reads configuration from `src/main/resources/application.yaml`.
 **API notes**
 Controllers implement REST endpoints for the main resources (Auth, Job, Company, User, Skill, Resume, Role, Permission, Subscriber, File, Email). See `src/main/java/com/spring/jobportal_redo/controller` for exact paths and request/response DTOs.
 
-
 ---
 Created for local development and learning. 
