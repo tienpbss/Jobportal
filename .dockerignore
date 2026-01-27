@@ -1,0 +1,36 @@
+# Maven / Gradle build output
+target/
+build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# VS Code (if any)
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Git
+.git/
+.gitignore
+
+# Docker files (optional)
+docker-compose.yml
+
+# Env / secrets (IMPORTANT)
+.env
+*.pem
+*.key
+
+# Test reports
+surefire-reports/
